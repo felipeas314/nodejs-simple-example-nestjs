@@ -1,15 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import { Fruit } from './fruit.interface';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Fruit } from './fruit.entity';
 
 @Injectable()
 export class FruitService {
-  private fruits: Fruit[] = [];
   
-  create(fruit: Fruit){
-    this.fruits.push(fruit);
+  constructor(@InjectRepository(Fruit) private fruitRepository: Repository<Fruit>){
+
   }
 
-  findAll(): Fruit[] {
-    return this.fruits;
+  create(fruit: Fruit){
+    this.fruitRepository.save(fruit);
+  }
+
+  findAll(): Promise<Fruit[]> {
+    return this.fruitRepository.find();
   }
 }

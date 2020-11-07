@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Body, Res, HttpStatus } from '@nestjs/common';
 import { Response } from 'express';
 import { FruitService } from './fruit.service';
-import { FruitDto } from './fruit.dto';
-import { Fruit } from './fruit.interface';
+import { Fruit } from './fruit.entity';
+
 
 @Controller('/fruits')
 export class FruitController {
@@ -15,8 +15,8 @@ export class FruitController {
   }
 
   @Post()
-  async create(@Body() fruitDto: FruitDto,@Res() res: Response){
+  async create(@Body() fruit: Fruit,@Res() res: Response){
     res.status(HttpStatus.CREATED).send()
-    this.fruitService.create(fruitDto);
+    this.fruitService.create(fruit);
   }
 }
